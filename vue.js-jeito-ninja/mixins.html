@@ -1,0 +1,43 @@
+<!-- MIXINS -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 17 - Vuejs do jeito ninja!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app">
+
+        <br><br><br>
+
+        <div class="container">
+            <h1>{{titulo}}</h1>
+            <button @click.stop.prevent="getUsers()" class="btn btn-success">ENVIAR</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+        var mixin ={
+            methods: {
+                getUsers(){
+                    console.log('Teste')
+                }
+            }
+        }
+        var app = new Vue({
+            el:"#app",
+
+            mixins: [mixin],
+            data: {
+                titulo: "Aula 17 - Vuejs do jeito ninja!"
+            },
+
+        });
+    </script>
+</body>
+</html>
