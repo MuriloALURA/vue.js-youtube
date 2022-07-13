@@ -1,0 +1,88 @@
+<!-- COMPONENTES PAI & FILHO -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 13&14 - Vuejs do jeito ninja!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app">
+        <navbar></navbar>
+        <menu-bar :items="[{label: 'A empresa'}, {label: 'Serviços'}, ]"></menu-bar>
+    </div>
+
+    <template id="nav">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <menu-bar :items="topNav"
+                @emit-click="getLink"
+                ></menu-bar>
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+    </template>
+
+    <template id="menu">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+            </li>
+            <li v-for="(item, index) in items" class="nav-item">
+              <a @click.stop.prevent="emitClick(index)" class="nav-link" href="#">{{item.label}}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#"></a>
+            </li>
+          </ul>
+    </template>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+        Vue.component('navbar',{
+            template:'#nav',
+            data(){
+              return {
+                topNav: [{label: 'Home'}, {label: 'Link'}, {label: 'Disabled'}]
+              }
+            },
+            methods:{
+              getLink(index){
+                alert(this.topNav[index].label)
+              }
+            }
+        })
+        Vue.component('menu-bar', {
+            template: "#menu",
+            props:{
+              items:{
+                type: Array,
+                required: true,
+              }
+            }, methods: {
+              emitClick(index){
+                this.$emit('emit-click', index);
+              }
+            }
+        })
+        var app = new Vue({
+            el:"#app",
+            data: {
+                titulo: "Aula 13&14 - Vuejs do jeito ninja!",
+            }, 
+        });
+    </script>
+</body>
+</html>
