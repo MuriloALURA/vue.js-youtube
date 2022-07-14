@@ -1,4 +1,4 @@
-<!-- VUE-RESOURCE -->
+<!-- AXIOS -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,21 +28,29 @@
     
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         var mixin ={
             methods: {
                 getUsers(){
                     this.loader.users = true;
                     var url = 'https://jsonplaceholder.typicode.com/users';
-                    this.$http.get(url).then(function(x){
-                        this.users = x.body;
-                    }, function(error){
-                        this.response.status = error;
-                        console.log(error);
-                    })
-                    .finally (function(){
-                        this.loader.users = false;
+                    var vm = this;
+
+                    axios.get(url).then(function(x){
+                        vm.users = x.data;
+                        vm.loader.users = false;
+                        console.log(url)
                     });
+                    // this.$http.get(url).then(function(x){
+                    //     this.users = x.body;
+                    // }, function(error){
+                    //     this.response.status = error;
+                    //     console.log(error);
+                    // })
+                    // .finally (function(){
+                    //     this.loader.users = false;
+                    // });
                 }
             }
         }
