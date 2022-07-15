@@ -41,6 +41,13 @@
         </div>
     </template>
     
+    <template id="transformersContent">
+        <div>
+            <h3>Conteúdo Transformers</h3>
+        </div>
+
+    </template>
+
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
     <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
@@ -48,13 +55,34 @@
     <script>
         
        var Transformers = Vue.component('transformers',{
-            template:'#transformers'
+            template:'#transformers',
+            data() {
+                return {
+                    transformers: [
+                        {name: 'Optimus Prime'},
+                        {name: 'Bumble Bee'},
+                        {name: 'Megatron'}
+                    ]
+                }
+            }
         });
     
         var GameOfthrones= Vue.component('game-of-thrones',{
-            template:'#game-of-thrones'
+            template:'#game-of-thrones',
+            data() {
+                return {
+                    gameOfthrones: [
+                        {name: 'Jon Snow'},
+                        {name: 'Daenerys Targaryen'},
+                        {name: 'Tyron'}
+                    ]
+                }
+            }
         });
 
+        var transformersContent = Vue.component('transformers-content',{
+            template: '#transformersContent'
+        })
 
         var router = new VueRouter({
             mode: 'history',
