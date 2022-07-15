@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 22 - Vuejs do jeito ninja!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1 ref="title">{{titulo}}</h1>
+            <ul>
+                <li><router-link :to="{name: 'transformers'}">Transformers</router-link></li>
+                <li><router-link :to="{name: 'gameOfThrones'}">Game Of thrones</router-link></li>
+            </ul>
+            <router-view></router-view>          
+        </div>
+    </div>
+
+    <template id="transformers">
+       <div>
+           <h4>Transformers</h4>
+            <ul>
+                <li>transformers 1</li>
+                <li>transformers 2</li>
+                <li>transformers 3</li>
+            </ul>
+       </div>
+    </template>
+    
+    <template id="game-of-thrones">
+        <div>
+            <h4>Game Of thrones</h4>
+            <ul>
+                <li>game-of-thrones 1</li>
+                <li>game-of-thrones 2</li>
+                <li>game-of-thrones 3</li>
+            </ul>
+        </div>
+    </template>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+
+    <script>
+        
+       var Transformers = Vue.component('transformers',{
+            template:'#transformers'
+        });
+    
+        var GameOfthrones= Vue.component('game-of-thrones',{
+            template:'#game-of-thrones'
+        });
+
+
+        var router = new VueRouter({
+            mode: 'history',
+            routes : [
+                { path:'/transformers', name:'transformers' , component: Transformers },
+                { path:'/game-of-thrones', name:'gameOfthrones' , component: GameOfthrones },
+            ]
+    
+        });
+    
+        var app = new Vue({
+            el:"#app",
+            router,
+            data:{
+                titulo:"Aula 22 - Vuejs do jeito ninja!"
+            }
+        })
+
+    </script>
+
+</body>
+</html>
