@@ -21,12 +21,17 @@
 
     <template id="transformers">
        <div>
-           <h4>Transformers</h4>
-            <ul>
-                <li>transformers 1</li>
-                <li>transformers 2</li>
-                <li>transformers 3</li>
-            </ul>
+            <div class="row">
+                <div class="col">
+                    <h4>Transformers</h4>
+                    <ul>
+                        <li v-for="item in transformers"><router-link :to="{name: 'TransformersContent', params: {name:item.slug}}">{{item.name}}</router-link></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <router-view></router-view>
+                </div>
+            </div>
        </div>
     </template>
     
@@ -44,6 +49,7 @@
     <template id="transformersContent">
         <div>
             <h3>Conteúdo Transformers</h3>
+            {{$route.params.name}}
         </div>
 
     </template>
@@ -59,9 +65,9 @@
             data() {
                 return {
                     transformers: [
-                        {name: 'Optimus Prime'},
-                        {name: 'Bumble Bee'},
-                        {name: 'Megatron'}
+                        {name: 'Optimus Prime', slug:'optimus-prime'},
+                        {name: 'Bumble Bee', slug:'bumble-bee'},
+                        {name: 'Megatron', slug: 'megatron'}
                     ]
                 }
             }
@@ -87,7 +93,10 @@
         var router = new VueRouter({
             mode: 'history',
             routes : [
-                { path:'/transformers', name:'transformers' , component: Transformers },
+                { path:'/transformers', name:'transformers' , component: Transformers, 
+                    children: [
+                        {path: ':name', name: 'transformersContent', component: TransformersContent}
+                    ] },
                 { path:'/game-of-thrones', name:'gameOfthrones' , component: GameOfthrones },
             ]
     
@@ -96,6 +105,11 @@
         var app = new Vue({
             el:"#app",
             router,
+
+            // created() {
+            //     this.$router.push({name: 'transformersContent', params: //COMPLETAR AQUI})
+            // },
+
             data:{
                 titulo:"Aula 22 - Vuejs do jeito ninja!"
             }
