@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Aula 19&20 - Vue js transições CSS</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity .5s;
+        }
+
+        .fade-enter,
+        .fade-leave-to
+
+        /* .fade-leave-active below version 2.1.8 */
+            {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <br />
+        <br />
+
+        <div class="container">
+            <h1> {{titulo}}</h1>
+            <select v-model="movie">
+                <option value="transformers">transformers</option>
+                <option value="game-of-thrones">Game Of Thrones</option>
+            </select>
+            <transition name="fade">
+                <component :is="movie"></component>
+            </transition>
+            <ul ref="users">
+                <li v-for="(item, index) in users" :key="item.name">{{item.name}} <a
+                        @click.stop.prevent='remove(index)'>x</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <template id="transformers">
+        <div>
+            <h4> Transformers</h4>
+            <ul>
+                <li v-for="item in transformers">{{item.name}} </li>
+            </ul>
+        </div>
+    </template>
+
+    <template id="gameOfThrones">
+        <div>
+            <h4> Game Of Thrones</h4>
+            <ul>
+                <li v-for="item in gameOfThrones">{{item.name}} </li>
+            </ul>
+        </div>
+    </template>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        Vue.component('transformers', {
+            template: '#transformers',
+            data() {
+                return {
+                    transformers: [
+                        { name: 'Emma' },
+                        { name: 'Sophia' },
+                        { name: 'Isabella' }
+                    ]
+                }
+            }
+        })
+
+        Vue.component('game-of-thrones', {
+            template: '#gameOfThrones',
+            data() {
+                return {
+                    gameOfThrones: [
+                        { name: 'Emma' },
+                        { name: 'Sophia' },
+                        { name: 'Isabella' }
+                    ]
+                }
+            }
+        })
+        var app = new Vue({
+            el: "#app",
+            mounted() {
+                console.log(this.$refs.users);
+            },
+            data: {
+                titulo: "Aula 19 & 20 - Vue js transições CSS!",
+                users: [
+                    { name: 'Emma' },
+                    { name: 'Sophia' },
+                    { name: 'Isabella' }
+                ],
+                movie: 'transformers'
+            },
+            methods: {
+                remove(index) {
+                    this.users.splice(index, 1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
