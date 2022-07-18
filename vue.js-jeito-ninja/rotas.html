@@ -13,7 +13,8 @@
             <h1 ref="title">{{titulo}}</h1>
             <ul>
                 <li><router-link :to="{name: 'transformers'}">Transformers</router-link></li>
-                <li><router-link :to="{name: 'gameOfThrones'}">Game Of thrones</router-link></li>
+                <li><router-link :to="{name: 'gameOfthrones'}">Game Of thrones</router-link></li>
+                <li><router-link to="arrow">Arrow</router-link></li>
             </ul>
             <router-view></router-view>          
         </div>
@@ -35,13 +36,11 @@
        </div>
     </template>
     
-    <template id="game-of-thrones">
+    <template id="gameOfthrones">
         <div>
             <h4>Game Of thrones</h4>
             <ul>
-                <li>game-of-thrones 1</li>
-                <li>game-of-thrones 2</li>
-                <li>game-of-thrones 3</li>
+                <li v-for="item in gameOfthrones">{{item.name}}</li>
             </ul>
         </div>
     </template>
@@ -54,14 +53,24 @@
 
     </template>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <template id="error404">
+        <div>
+            <h1>Página não encontrada</h1>
+            <p>Ops! Parece que está página não existe.</p>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
-    <script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+    <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
 
     <script>
         
        var Transformers = Vue.component('transformers',{
             template:'#transformers',
+            props:{
+                sidebar: Boolean,
+            },
             data() {
                 return {
                     transformers: [
@@ -74,7 +83,7 @@
         });
     
         var GameOfthrones= Vue.component('game-of-thrones',{
-            template:'#game-of-thrones',
+            template:'#gameOfthrones',
             data() {
                 return {
                     gameOfthrones: [
@@ -90,14 +99,22 @@
             template: '#transformersContent'
         })
 
+        var error404 = Vue.component('error404',{
+            template: '#error404'
+        })
+
+
         var router = new VueRouter({
-            mode: 'history',
+            // mode: 'history',
             routes : [
+                {path: '/', name: 'home', redirect: {name: 'transformersContent', params: {name: 'optimus-prime'}}},
                 { path:'/transformers', name:'transformers' , component: Transformers, 
+                    props:{sidebar: false},
                     children: [
-                        {path: ':name', name: 'transformersContent', component: TransformersContent}
+                        {path: ':name', name: 'transformersContent', component: transformersContent}
                     ] },
                 { path:'/game-of-thrones', name:'gameOfthrones' , component: GameOfthrones },
+                {path: '*', name:'error404' , component: error404}
             ]
     
         });
@@ -107,7 +124,7 @@
             router,
 
             // created() {
-            //     this.$router.push({name: 'transformersContent', params: //COMPLETAR AQUI})
+            //     this.$router.push({name: 'transformersContent', params: {name: 'megatron'}});
             // },
 
             data:{
