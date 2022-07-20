@@ -29,14 +29,7 @@
 
     <br>
     <hr><br>
-
-    <template v-if="selectedIssue.id">
-        <h2>{{selectedIssue.title}}</h2>
-        <div>{{selectedIssue.body}}</div>
-        <a class="btn btn-primary" @click.prevent.stop="clearIssues()" href="">Voltar</a>
-    </template>  
-
-    <br>
+ 
 
     <table class="table table-sm table-bordered">
         <thead>
@@ -55,7 +48,16 @@
             <tr v-if="!!issues.length && !loader.getIssues"
             v-for="issue in issues" 
             :key="issue.number">
-                <td><a @click.prevent.stop="getIssue(issue.number)" href="">{{issue.number}}</a></td>
+                <td>
+                <router-link :to="{name: 'GitHubIssue', 
+                params: {
+                    name: username, 
+                    repo: repository, 
+                    issue: issue.number
+                    }}">
+                {{issue.number}}
+                </router-link>
+                </td>
                 <td>{{issue.title}}</td>             
             </tr>
 
@@ -81,7 +83,6 @@ export default {
             selectedIssue: {},
             loader: {
                 getIssues: false,
-                getIssue: false,
             },
         };
     },
@@ -102,14 +103,14 @@ export default {
                 });
             }
         },
-        getIssue(issueId) {
+        getIssue(issue) {
             if (this.username && this.repository) {
-                this.loader.getIssue = true;
-                const url = `https://api.github.com/repos/${this.username}/${this.repository}/issues/${issueId}`;
+                this.$set(issue, 'is_loading', true);
+                const url = `https://api.github.com/repos/${this.username}/${this.repository}/issues/${issue.number}`;
                 axios.get(url).then((response) => {
                     this.selectedIssue = response.data;                    
                 }).finally(() => {
-                    this.loader.getIssues = false;
+                    this.$set(issue, 'is_loading', false);
                 });
             }        
         },
