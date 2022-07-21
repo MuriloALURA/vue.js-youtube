@@ -1,34 +1,34 @@
 <template>
-    <div>
-        <div v-if="loader.getIssue"><img src="/static/loading.svg"></div>
-        <div v-if="!loader.getIssue && issue.number" class="container">
-            <h1>Issue #{{issue.number}}</h1>
-            {{issue}}
-             <h2>{{issue.title}}</h2>
-            <div>{{issue.body}}</div>
-            <a class="btn btn-primary" href="javascript:history.go(-1)">Voltar</a> 
+    <div class="container">
+        <div v-if="loader.getIssue"><img src="/static/loading.svg" alt=""></div>
+
+        <div v-if="!loader.getIssue && issue.number">
+            <h1>Issue #{{ issue.number }}</h1>
+            <h2>{{ issue.title }}</h2>
+            <div>{{ issue.body }}</div>
+            <a href="javascript:history.go(-1)" class="btn btn-primary">Voltar</a>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+    import axios from 'axios';
 
-export default {
-    name: 'GitHubIssue',
+    export default {
+        name: 'GitHubIssue',
 
-    created(){
-        this.getIssue();
-    },
+        created() {
+            this.getIssue();
+        },
 
-    data() {
-        return {
-            issue: {},
-            loader: {
-                getIssue: false,
-            },
-        };
-    },
+        data() {
+            return {
+                issue: {},
+                loader: {
+                    getIssue: false,
+                },
+            };
+        },
 
         methods: {
             getIssue() {
